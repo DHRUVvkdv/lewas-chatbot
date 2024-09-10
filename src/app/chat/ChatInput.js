@@ -19,12 +19,12 @@ export default function ChatInput({ onSendMessage }) {
                 type="text"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                className="flex-grow p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white"
+                className="flex-grow p-2 border border-main rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-surface text-main"
                 placeholder="Type your message..."
             />
             <button
                 type="submit"
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-blue-700 dark:hover:bg-blue-800"
+                className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-primary-dark"
             >
                 Send
             </button>

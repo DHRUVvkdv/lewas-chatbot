@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Your other global styles */
+
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -23,5 +26,38 @@ body {
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Your other global styles */
+
+@layer components {
+  .bg-primary {
+    @apply bg-primary-light dark:bg-primary-dark;
+  }
+  .bg-secondary {
+    @apply bg-secondary-light dark:bg-secondary-dark;
+  }
+  .bg-main {
+    @apply bg-background-light dark:bg-background-dark;
+  }
+  .bg-surface {
+    @apply bg-surface-light dark:bg-surface-dark;
+  }
+  .text-primary {
+    @apply text-primary-light dark:text-primary-dark;
+  }
+  .text-secondary {
+    @apply text-secondary-light dark:text-secondary-dark;
+  }
+  .text-main {
+    @apply text-text-light dark:text-text-dark;
+  }
+  .border-main {
+    @apply border-gray-300 dark:border-gray-600;
   }
 }

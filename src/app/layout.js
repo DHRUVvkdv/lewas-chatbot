@@ -1,26 +1,20 @@
-'use client';
-
 import './globals.css';
-import { ThemeProvider, useTheme } from './context/ThemeContext';
+import { ThemeProvider } from './context/ThemeContext';
+import Layout from './components/Layout';
 
-const RootLayout = ({ children }) => {
-  return (
-    <ThemeProvider>
-      <LayoutContent>{children}</LayoutContent>
-    </ThemeProvider>
-  );
+export const metadata = {
+  title: 'My Chatbot App',
+  description: 'A simple chatbot application',
 };
 
-const LayoutContent = ({ children }) => {
-  const { darkMode } = useTheme();
-
+export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={darkMode ? 'dark' : ''}>
-      <body className={`${darkMode ? 'dark:bg-gray-900 dark:text-white' : 'bg-white text-black'} transition-colors duration-200`}>
-        {children}
+    <html lang="en">
+      <body>
+        <ThemeProvider>
+          <Layout>{children}</Layout>
+        </ThemeProvider>
       </body>
     </html>
   );
-};
-
-export default RootLayout;
+}

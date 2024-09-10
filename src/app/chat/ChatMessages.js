@@ -5,8 +5,8 @@ export default function ChatMessages({ messages }) {
                 <div
                     key={index}
                     className={`p-3 rounded-lg ${message.sender === 'user'
-                            ? 'bg-blue-100 dark:bg-blue-900 ml-auto'
-                            : 'bg-gray-100 dark:bg-gray-800'
+                            ? 'bg-primary text-white ml-auto'
+                            : 'bg-secondary text-main'
                         } max-w-[70%]`}
                 >
                     {message.text}
