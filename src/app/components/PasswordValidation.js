@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Check, X } from "lucide-react";
+//com,ment
 
 const PasswordValidation = ({ onChange }) => {
     const [password, setPassword] = useState('');
