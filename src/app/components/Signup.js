@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useRouter } from 'next/navigation';
+import build from 'next/dist/build';
 
 export default function Signup({ onSignupSuccess }) {
     const [email, setEmail] = useState('');
@@ -44,6 +45,7 @@ export default function Signup({ onSignupSuccess }) {
         }
         return () => clearTimeout(redirectTimer);
     }, [verificationSuccess, router]);
+    // trigger for amplify build
 
     const handleSubmit = async (e) => {
         e.preventDefault();
