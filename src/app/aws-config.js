@@ -18,7 +18,7 @@ export const getSafeConfig = () => ({
 
 export { REGION, USER_POOL_ID, CLIENT_ID };
 
-export const LAMBDA_API_ENDPOINT = process.env.NEXT_PUBLIC_LAMBDA_API_ENDPOINT;
+export const LAMBDA_API_ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
 if (!LAMBDA_API_ENDPOINT) {
     console.error('Lambda API endpoint is not configured. Please check your environment variables.');

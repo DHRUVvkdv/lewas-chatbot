@@ -9,7 +9,7 @@ export default function Login() {
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
     const { login } = useAuth();
-    const router = typeof window !== 'undefined' ? useRouter() : null;
+    const router = useRouter();
 
     const handleSubmit = async (e) => {
         e.preventDefault();

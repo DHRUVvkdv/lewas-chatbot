@@ -22,7 +22,7 @@ export default function Signup({ onSignupSuccess }) {
     const [verificationCode, setVerificationCode] = useState('');
     const [verificationSuccess, setVerificationSuccess] = useState(false);
     const { signup, confirmSignUp, resendConfirmationCode } = useAuth();
-    const router = typeof window !== 'undefined' ? useRouter() : null;
+    const router = useRouter();
 
     useEffect(() => {
         const updatedRequirements = [
