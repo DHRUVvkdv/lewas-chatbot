@@ -35,7 +35,7 @@ export default function Chat() {
     return (
         <div className="flex flex-col h-[calc(100vh-12rem)] bg-surface rounded-lg shadow-lg">
             <div className="p-4 bg-primary text-white">
-                <h2 className="text-xl font-bold">Welcome, {user.attributes.email}</h2>
+                <h2 className="text-xl font-bold">Welcome, {user.attributes.preferred_username}</h2>
             </div>
             <div className="flex-grow overflow-auto p-4">
                 <ChatMessages messages={messages} />

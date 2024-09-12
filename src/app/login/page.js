@@ -2,37 +2,63 @@
 
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { useRouter } from 'next/navigation';
+import Login from '../components/Login';
+import Signup from '../components/Signup';
+import ForgotPassword from '../components/ForgotPassword';
 
-export default function Login() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+export default function LoginSignup() {
+    const [activeTab, setActiveTab] = useState('login');
     const [connectionStatus, setConnectionStatus] = useState(null);
-    const { login, checkConnection } = useAuth();
-    const router = useRouter();
+    const { checkConnection } = useAuth();
 
     const handleConnectionCheck = async () => {
         const result = await checkConnection();
         setConnectionStatus(result);
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        if (connectionStatus && connectionStatus.success) {
-            try {
-                await login(email, password);
-                router.push('/chat');
-            } catch (error) {
-                console.error('Login failed:', error);
-            }
-        } else {
-            setConnectionStatus({ success: false, message: 'Please check the connection first.' });
+    const handleSignupSuccess = () => {
+        setActiveTab('login');
+    };
+
+    const renderActiveComponent = () => {
+        switch (activeTab) {
+            case 'login':
+                return (
+                    <>
+                        <Login />
+                        <button
+                            onClick={() => setActiveTab('forgotPassword')}
+                            className="mt-4 text-blue-500 hover:text-blue-700 text-sm"
+                        >
+                            Forgot Password?
+                        </button>
+                    </>
+                );
+            case 'signup':
+                return <Signup onSignupSuccess={handleSignupSuccess} />;
+            case 'forgotPassword':
+                return <ForgotPassword onResetSuccess={() => setActiveTab('login')} />;
+            default:
+                return null;
         }
     };
 
     return (
         <div className="max-w-md mx-auto bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg">
-            <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-gray-100">Login</h2>
+            <div className="flex mb-4">
+                <button
+                    onClick={() => setActiveTab('login')}
+                    className={`flex-1 py-2 ${activeTab === 'login' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'} rounded-tl-lg`}
+                >
+                    Login
+                </button>
+                <button
+                    onClick={() => setActiveTab('signup')}
+                    className={`flex-1 py-2 ${activeTab === 'signup' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'} rounded-tr-lg`}
+                >
+                    Sign Up
+                </button>
+            </div>
             <button
                 onClick={handleConnectionCheck}
                 className="mb-4 p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
@@ -40,35 +66,25 @@ export default function Login() {
                 Check Connection
             </button>
             {connectionStatus && (
-                <p className={`mb-4 ${connectionStatus.success ? 'text-green-500' : 'text-red-500'}`}>
-                    {connectionStatus.message}
-                </p>
+                <div className="mb-4">
+                    <p className={`${connectionStatus.success ? 'text-green-500' : 'text-red-500'}`}>
+                        {connectionStatus.message}
+                    </p>
+                    {connectionStatus.config && (
+                        <div className="mt-2 text-sm">
+                            <p>Region: {connectionStatus.config.region}</p>
+                            <p>User Pool ID: {connectionStatus.config.userPoolId}</p>
+                            <p>Client ID: {connectionStatus.config.clientId}</p>
+                        </div>
+                    )}
+                    {connectionStatus.error && (
+                        <p className="mt-2 text-sm text-red-500">
+                            Error details: {connectionStatus.error}
+                        </p>
+                    )}
+                </div>
             )}
-            <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                    <label htmlFor="email" className="block mb-1 text-gray-700 dark:text-gray-300">Email</label>
-                    <input
-                        type="email"
-                        id="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
-                        required
-                    />
-                </div>
-                <div>
-                    <label htmlFor="password" className="block mb-1 text-gray-700 dark:text-gray-300">Password</label>
-                    <input
-                        type="password"
-                        id="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
-                        required
-                    />
-                </div>
-                <button type="submit" className="w-full p-2 bg-blue-600 text-white rounded hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800">Login</button>
-            </form>
+            {renderActiveComponent()}
         </div>
     );
 }

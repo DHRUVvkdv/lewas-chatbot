@@ -1,17 +1,19 @@
-import { Amplify } from 'aws-amplify';
+import { CognitoIdentityProviderClient } from "@aws-sdk/client-cognito-identity-provider";
 
-const awsConfig = {
-    Auth: {
-        region: process.env.NEXT_PUBLIC_AWS_REGION,
-        userPoolId: process.env.NEXT_PUBLIC_AWS_USER_POOL_ID,
-        userPoolWebClientId: process.env.NEXT_PUBLIC_AWS_USER_POOL_WEB_CLIENT_ID,
-    }
-};
+const REGION = process.env.NEXT_PUBLIC_AWS_REGION;
+const USER_POOL_ID = process.env.NEXT_PUBLIC_AWS_USER_POOL_ID;
+const CLIENT_ID = process.env.NEXT_PUBLIC_AWS_USER_POOL_WEB_CLIENT_ID;
 
-if (!awsConfig.Auth.region || !awsConfig.Auth.userPoolId || !awsConfig.Auth.userPoolWebClientId) {
+if (!REGION || !USER_POOL_ID || !CLIENT_ID) {
     console.error('AWS Cognito configuration is incomplete. Please check your environment variables.');
 }
 
-Amplify.configure(awsConfig);
+export const cognitoClient = new CognitoIdentityProviderClient({ region: REGION });
 
-export default awsConfig;
+export const getSafeConfig = () => ({
+    region: REGION || 'Not set',
+    userPoolId: USER_POOL_ID ? `${USER_POOL_ID.split('_')[0]}...` : 'Not set',
+    clientId: CLIENT_ID ? `${CLIENT_ID.slice(0, 5)}...` : 'Not set'
+});
+
+export { REGION, USER_POOL_ID, CLIENT_ID };
