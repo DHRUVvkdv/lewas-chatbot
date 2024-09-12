@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import PasswordValidation from './PasswordValidation';
+import PasswordValidation from '../components/PasswordValidation';
 
 export default function Signup({ onSignupSuccess }) {
     const [email, setEmail] = useState('');
