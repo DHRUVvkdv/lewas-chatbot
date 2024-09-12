@@ -59,6 +59,7 @@ export default function LoginSignup() {
                     Sign Up
                 </button>
             </div>
+            {/* This is the button that checks the connection status */}
             {/* <button
                 onClick={handleConnectionCheck}
                 className="mb-4 p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
