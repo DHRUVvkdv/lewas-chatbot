@@ -59,13 +59,13 @@ export default function LoginSignup() {
                     Sign Up
                 </button>
             </div>
-            <button
+            {/* <button
                 onClick={handleConnectionCheck}
                 className="mb-4 p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
             >
                 Check Connection
-            </button>
-            {connectionStatus && (
+            </button> */}
+            {/* {connectionStatus && (
                 <div className="mb-4">
                     <p className={`${connectionStatus.success ? 'text-green-500' : 'text-red-500'}`}>
                         {connectionStatus.message}
@@ -83,7 +83,7 @@ export default function LoginSignup() {
                         </p>
                     )}
                 </div>
-            )}
+            )} */}
             {renderActiveComponent()}
         </div>
     );

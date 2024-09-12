@@ -70,7 +70,6 @@ export default function Signup({ onSignupSuccess }) {
         } catch (error) {
             console.error('Signup failed:', error);
             if (error.code === 'UsernameExistsException') {
-                // User exists but might be unconfirmed
                 setError('An account with this email already exists. If you haven\'t confirmed your email, click "Resend Code".');
                 setVerificationSent(true);
             } else {
@@ -101,40 +100,6 @@ export default function Signup({ onSignupSuccess }) {
         }
     };
 
-    if (verificationSuccess) {
-        return (
-            <div className="text-center">
-                <p className="text-green-600 font-bold mb-4">Email verified successfully!</p>
-                <p className="text-gray-700 dark:text-gray-300">Redirecting to login page in 3 seconds...</p>
-            </div>
-        );
-    }
-
-    if (verificationSent) {
-        return (
-            <form onSubmit={handleVerification} className="space-y-4">
-                <p className="text-gray-700 dark:text-gray-300">Please check your email for a verification code.</p>
-                <div>
-                    <label htmlFor="verificationCode" className="block mb-1 text-gray-700 dark:text-gray-300">Verification Code</label>
-                    <input
-                        type="text"
-                        id="verificationCode"
-                        value={verificationCode}
-                        onChange={(e) => setVerificationCode(e.target.value)}
-                        className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
-                        required
-                    />
-                </div>
-                {error && <p className="text-red-500">{error}</p>}
-                <button type="submit" className="w-full p-2 bg-blue-600 text-white rounded hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800">Verify Email</button>
-                <button type="button" onClick={handleResendCode} className="w-full p-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 dark:bg-gray-600 dark:text-gray-200 dark:hover:bg-gray-500">Resend Code</button>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                    Didn't receive the code? You can try signing up again later or contact support if the issue persists.
-                </p>
-            </form>
-        );
-    }
-
     return (
         <>
             {verificationSuccess ? (
@@ -159,9 +124,6 @@ export default function Signup({ onSignupSuccess }) {
                     {error && <p className="text-red-500">{error}</p>}
                     <button type="submit" className="w-full p-2 bg-blue-600 text-white rounded hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800">Verify Email</button>
                     <button type="button" onClick={handleResendCode} className="w-full p-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 dark:bg-gray-600 dark:text-gray-200 dark:hover:bg-gray-500">Resend Code</button>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                        Didn't receive the code? You can try signing up again later or contact support if the issue persists.
-                    </p>
                 </form>
             ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
@@ -220,21 +182,26 @@ export default function Signup({ onSignupSuccess }) {
                             required
                         />
                     </div>
+
+                    {/* Password Requirements Section */}
                     <div className="space-y-2">
                         <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Password requirements:</p>
                         {passwordRequirements.map((req, index) => (
                             <div key={index} className="flex items-center space-x-2">
                                 {req.met ? (
-                                    <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>
+                                    <svg className="w-4 h-4 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                                    </svg>
                                 ) : (
-                                    <svg className="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                    <svg className="w-4 h-4 text-red-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
                                 )}
-                                <span className={`text-sm ${req.met ? "text-green-700 dark:text-green-400" : "text-red-700 dark:text-red-400"}`}>
-                                    {req.text}
-                                </span>
+                                <p className={`${req.met ? 'text-green-500' : 'text-red-500'} text-sm`}>{req.text}</p>
                             </div>
                         ))}
                     </div>
+
                     {error && <p className="text-red-500">{error}</p>}
                     <button type="submit" className="w-full p-2 bg-blue-600 text-white rounded hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800">Sign Up</button>
                     {error && error.includes('already exists') && (
